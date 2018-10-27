@@ -6,9 +6,13 @@ class Alembic < Formula
 
   depends_on "cmake" => :build
   depends_on "ilmbase"
+  depends_on "boost" => :optional
+  depends_on "hdf5" => :optional
 
   def install
     args = std_cmake_args
+    args << "-DALEMBIC_LIB_USES_BOOST=ON" if build.with? "boost"
+    args << "-DUSE_HDF5=ON" if build.with? "hdf5"
 
     mkdir "macbuild" do
       system "cmake", *args, ".."
